@@ -70,9 +70,9 @@ export class Muistipeli extends React.Component {
                 border: 0
             }
             if (vari === 'White') {
-                return (
-                    <button key={a.numero} style={tyyli}>{a.teksti}</button>
-                )
+//                return (
+//                    <button key={a.numero} style={tyyli}>{a.teksti}</button>
+//                )
             } else {
                 tyyli.cursor = 'pointer';
                 return (
