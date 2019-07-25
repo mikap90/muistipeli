@@ -3,7 +3,7 @@ import React from 'react';
 export class Muistipeli extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {valittu1: 0, valitutLkm: 0, parit: 0, kortti: [], yritykset: 0, ratkaistu: false};
+        this.state = {valittu1: 0, valitutLkm: 0, parit: 0, kortti: [], yritykset: 0, ratkaistu: false, peli:''};
         this.nappiaKlikattu = this.nappiaKlikattu.bind(this);
         this.uusiPeli = this.uusiPeli.bind(this);
     }
@@ -49,6 +49,7 @@ export class Muistipeli extends React.Component {
         this.setState({parit: 0});
         this.setState({yritykset: 0});
         this.setState({ratkaistu: false});
+        this.setState({peli: peli});
     }
 
     render() {
@@ -61,20 +62,29 @@ export class Muistipeli extends React.Component {
             let tyyli = {
                 width: 180,
                 height: 180,
-                backgroundColor: vari,
-                color: fontinVari,
                 position: 'fixed',
                 left: vasen,
                 top: yla,
-                fontSize: fontinkoko,
-                border: 0
+                border: 0,
+                cursor: 'pointer'
             }
             if (vari === 'White') {
-//                return (
-//                    <button key={a.numero} style={tyyli}>{a.teksti}</button>
-//                )
+                return null;
+            } else if (this.state.peli === 'mari') {
+                if (a.teksti === '') {
+                    tyyli.backgroundColor = vari;
+                    return (
+                        <button  key={a.numero} onClick={() => this.nappiaKlikattu(a.numero)} style={tyyli}>{a.teksti}</button>
+                    )
+                } else {
+                    return (
+                        <button key={a.numero}><img src={'./images/'+a.teksti+'.jpg'} alt={a.teksti} onClick={() => this.nappiaKlikattu(a.numero)} style={tyyli} /></button>
+                    )
+                }
             } else {
-                tyyli.cursor = 'pointer';
+                tyyli.fontSize = fontinkoko;
+                tyyli.color = fontinVari;
+                tyyli.backgroundColor = vari;
                 return (
                     <button  key={a.numero} onClick={() => this.nappiaKlikattu(a.numero)} style={tyyli}>{a.teksti}</button>
                 )
@@ -84,11 +94,13 @@ export class Muistipeli extends React.Component {
             {(!this.state.ratkaistu > 0) && <h2>Yrityksiä: {this.state.yritykset}
                 &nbsp;&nbsp; <input key={'Digipore'} type="button" value="Digipore" onClick={() => this.uusiPeli("digipore")} />
                 &nbsp;&nbsp; <input key={'USA'} type="button" value="USA" onClick={() => this.uusiPeli("usa")} />
+                &nbsp;&nbsp; <input key={'Bonus'} type="button" value="Bonus" onClick={() => this.uusiPeli("mari")} />
             </h2>}
             {(this.state.ratkaistu > 0) && <h2>Yrityksiä: {this.state.yritykset}
                 &nbsp;&nbsp; Kaikki parit löydetty.
                 &nbsp;&nbsp; <input key={'Digipore'} type="button" value="Digipore" onClick={() => this.uusiPeli("digipore")} />
                 &nbsp;&nbsp; <input key={'USA'} type="button" value="USA" onClick={() => this.uusiPeli("usa")} />
+                &nbsp;&nbsp; <input key={'Bonus'} type="button" value="Bonus" onClick={() => this.uusiPeli("mari")} />
             </h2>}
             {kortit}
         </div>
@@ -101,7 +113,6 @@ export class Muistipeli extends React.Component {
 
 function kortinMaarittely(peli) {
 //  Muistipelin korttien määrittelyt ja tekstien arvonta.
-    console.log(peli);
     let kortti = [];
     let vasenAnkkuri = 70;
     let ylaAnkkuri = 90;
@@ -122,6 +133,13 @@ function kortinMaarittely(peli) {
         var tekstit1 = ['HTML','CSS','JS','React','Angular','Vue','C#','SQL','HTTP','Git','.NET','Azure','Scrum','npm'];
         var tekstit2 = tekstit1;
         var fontinVarit = ['Violet','DarkBlue','Black','SkyBlue','Red','SeaGreen','Pink','Green','Blue','Orange','Purple','LightSkyBlue','DarkCyan','DarkRed'];
+        var tekstit = [];
+        for (let i = 0; i < 14; i++) {
+            tekstit.push(i);
+        }
+    } else if (peli === 'mari') {
+        var tekstit1 = ['kuva1','kuva2','kuva3','kuva4','kuva5','kuva6','kuva7','kuva8','kuva9','kuva10','kuva11','kuva12','kuva13','kuva14'];
+        var tekstit2 = tekstit1;
         var tekstit = [];
         for (let i = 0; i < 14; i++) {
             tekstit.push(i);

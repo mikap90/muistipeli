@@ -133,7 +133,7 @@ const Tausta = () => {
 export class Peli15 extends React.Component {
     constructor(props) {
         super(props);
-        this.state={nappula:[], klikattu: 0, ratkaistu: false};
+        this.state={nappula:[], klikattu: 0, ratkaistu: false, peli:''};
         this.nappiaKlikattu = this.nappiaKlikattu.bind(this);
         this.uusiPeli = this.uusiPeli.bind(this);
     } 
@@ -153,10 +153,11 @@ export class Peli15 extends React.Component {
         }
     }
 
-    uusiPeli() {
+    uusiPeli(peli) {
         this.setState({nappula: alkuasetelma()});
         this.setState({klikattu: 0});
         this.setState({ratkaistu: false});
+        this.setState({peli: peli});
     }
 
     render() {
@@ -178,15 +179,26 @@ export class Peli15 extends React.Component {
             }
             if (a.numero===16) {
                 return <button key={a.numero} style={tyyli}>{a.numero}</button>
+            } else if (this.state.peli === 'bonus') {
+                tyyli.cursor = 'pointer';
+                tyyli.width = 100;
+                tyyli.height = 100;
+                return <button key={a.numero}><img src={'./images2/osa'+a.numero+'.jpg'} alt={a.numero} onClick={() => this.nappiaKlikattu(a.numero)} style={tyyli} /></button>
             } else {
                 tyyli.cursor = 'pointer';
                 return <button key={a.numero} onClick={() => this.nappiaKlikattu(a.numero)} style={tyyli}>{a.numero}</button>
             }
         });
         return <div>
-            {(!this.state.ratkaistu) && <h2>Siirtoja: {this.state.klikattu} &nbsp;&nbsp; <button onClick={() => this.uusiPeli()}>Uusi peli</button></h2>}
-            {(this.state.ratkaistu) && <h2>Siirtoja: {this.state.klikattu} &nbsp;&nbsp; Ratkaistu. &nbsp;&nbsp; 
-                <button onClick={() => this.uusiPeli()}>Uusi peli</button></h2>}
+            {(!this.state.ratkaistu) && <h2>Siirtoja: {this.state.klikattu} 
+                &nbsp;&nbsp; <button onClick={() => this.uusiPeli("original")}>Original</button>
+                &nbsp;&nbsp; <button onClick={() => this.uusiPeli("bonus")}>Bonus</button>
+            </h2>}
+            {(this.state.ratkaistu) && <h2>Siirtoja: {this.state.klikattu}
+                &nbsp;&nbsp; Ratkaistu.
+                &nbsp;&nbsp; <button onClick={() => this.uusiPeli("original")}>Original</button>
+                &nbsp;&nbsp; <button onClick={() => this.uusiPeli("bonus")}>Bonus</button>
+            </h2>}
             <Tausta />
             {nappulat}
         </div>

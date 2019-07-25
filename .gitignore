@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# omat
+/public/images_neliot_suuret
+/public/images2_suuret
